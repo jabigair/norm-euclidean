@@ -106,7 +106,6 @@ def int_translates(x, y, step, translate, disc):
 0----------------------0----------------------0
  (xl,yl)                (xl+step,yl)           (xh,yl)
 
-
 [______________________]
           step
 
@@ -142,7 +141,7 @@ def explore_square(bad_squares, translate, disc):
     return new_bad_squares
 
 
-def loop(output_dir, bad_squares, translate, disc, num_cpus):
+def loop(output_dir, bad_squares, input_square, translate, disc, num_cpus):
     # loop explore_square
     p = Pool(num_cpus)
     depth = 1 
@@ -155,7 +154,7 @@ def loop(output_dir, bad_squares, translate, disc, num_cpus):
             bad_squares.extend(s)
 
         # write bad_squares 
-        write_bad_squares(output_dir, bad_squares, disc, depth, translate)
+        write_bad_squares(output_dir, bad_squares, input_square, disc, depth, translate)
 
         print(f'Finished discriminant {disc}, depth {depth}, translate {translate}')
         depth += 1
@@ -167,7 +166,10 @@ def loop(output_dir, bad_squares, translate, disc, num_cpus):
     return
 
 
-def area_loop(output_dir, bad_squares, translate, disc, num_cpus):
+# TODO : add input_square to area_loop
+# also, this function just needs some TLC
+
+def area_loop(output_dir, num_cpus):
     # loop explore_square, stopping recursion either once
     # the area of the "bad" region is small enough or if
     # we've recursed a certain number of times
@@ -181,7 +183,8 @@ def area_loop(output_dir, bad_squares, translate, disc, num_cpus):
         depth = 1 
         max_depth = 10
         translate = 10
-        bad_squares = [[0,0,1,1]]
+        bad_squares = [[0,0,1,1]] # initialize square
+        output_dir = output_dir + f"/disc{disc}"
 
         flag = True
         while flag:
@@ -212,11 +215,12 @@ def area_loop(output_dir, bad_squares, translate, disc, num_cpus):
     return
 
 
-def write_bad_squares(output_dir, bad_squares, disc, depth, translate):
+def write_bad_squares(output_dir, bad_squares, input_square, disc, depth, translate):
     bad_squares = [(str(bad_squares[i][0]), str(bad_squares[i][1]), str(bad_squares[i][2]), str(bad_squares[i][3])) for i in range(len(bad_squares))]
     f = open(f'{output_dir}/disc{disc}_depth{depth}.txt', 'w')
     print(f'Writing to {output_dir}/disc{disc}_depth{depth}.txt')
-    f.write(json.dumps({"depth": str(depth), "translate": str(translate), "squares": bad_squares}))
+    str_input_sq = [str(val) for val in input_square]
+    f.write(json.dumps({"depth": str(depth), "translate": str(translate), "input_square": str_input_sq, "squares": bad_squares}))
     f.close()
     return
 
@@ -228,7 +232,12 @@ def read_bad_squares(input_file):
     bad = f.read()
     f.close()
 
-    str_bad_squares = json.loads(bad)["squares"]
+    square_dict = json.loads(bad)
+    str_bad_squares = square_dict["squares"]
+    if "input_square" in square_dict:
+        input_square = [Rational(val) for val in square_dict["input_square"]]
+    else:
+        input_square = [0,0,1,1]
     bad_squares = []
 
     for str_sq in str_bad_squares:
@@ -237,7 +246,7 @@ def read_bad_squares(input_file):
         sq = [Rational(str_sq[0]), Rational(str_sq[1]), Rational(str_sq[2]), Rational(str_sq[3])]
         bad_squares.append(sq)
 
-    return bad_squares
+    return bad_squares, input_square
 
 
 if __name__ == '__main__':
@@ -247,18 +256,25 @@ if __name__ == '__main__':
     ap.add_argument('-d', '--discriminant', required=True, type=int, help='The discriminant of the number field')
     ap.add_argument('-t', '--translate', required=True, type=int, help='The range you want for translates')
     ap.add_argument('-c', '--num-cpus', required=True, type=int, help='The number of CPUs you want to use')
+    ap.add_argument('-i', '--input-square', required=False, nargs=argparse.REMAINDER, type=str, default=["0","0","1","1"], help='The 1x1 square you initialize the computation with')
     args = ap.parse_args(sys.argv[1:])
     
     # make output directory (fails if directory already exists)
     os.makedirs(args.output_directory)
 
+    if args.input_file != None:
+        print("Since you specified an input file, we'll use the input square stored in that file, and not the one you may have passed to the parser.")
+
+    assert (len(args.input_square) == 4)
+
     # initialize list of bad squares
     # either read in from a file, or start with unit square centered at (1/2, 1/2)
     if args.input_file == None:
-        bad_squares = [[Rational(-1/2), 0, Rational(1/2), 1]] # [[0,0,1,1]]
+        bad_squares = [[Rational(num) for num in args.input_square]] # [[Rational(-1/2), 0, Rational(1/2), 1]] # [[0,0,1,1]]
+        input_square = [Rational(num) for num in args.input_square]
     else:
-        bad_squares = read_bad_squares(args.input_file)
+        bad_squares, input_square = read_bad_squares(args.input_file)
 
     # start cutting up squares and recursing
-    loop(args.output_directory, bad_squares, args.translate, args.discriminant, args.num_cpus)
+    loop(args.output_directory, bad_squares, input_square, args.translate, args.discriminant, args.num_cpus)
 
