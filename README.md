@@ -63,8 +63,8 @@ Notice that $a,b,q \in \mathcal{O}_ {K}$, so we can write each of these as $m + 
 $$
 \begin{align*}
     1 &> |N(\frac{a}{b} - q)| \\
-    &= |N(\frac{a_{1} + \alpha a_{2}}{b_{1} + \alpha b_{2}} - (q_{1} + \alpha q_{2})| \\
-    &= |N(x + \alpha y) - (q_{1} + \alpha q_{2})| \\
+    &= |N(\frac{a_{1} + \alpha a_{2}}{b_{1} + \alpha b_{2}} - (q_{1} + \alpha q_{2}))| \\
+    &= |N((x + \alpha y) - (q_{1} + \alpha q_{2}))| \\
     &= |N((x - q_{1}) + \alpha (y - q_{2}))|,
 \end{align*}
 $$
