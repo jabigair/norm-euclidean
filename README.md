@@ -8,28 +8,32 @@ This repository contains code that replicates this same search for discriminants
 
 # Background
 
-Let $\Delta$ be the discriminant of our quadratic field. For our purposes, we will also require $\Delta > 0$. We write this field as $K = \Q[\sqrt{\Delta}]$. Then the ring of integers, $\mathcal{O}_{K}$, looks like
+Let $\Delta$ be the discriminant of our quadratic field. For our purposes, we will also require $\Delta > 0$. We write this field as $K = \mathbb{Q}[\sqrt{\Delta}]$. Then the ring of integers, $\mathcal{O}_{K}$, looks like
 
 $$
     \mathcal{O}_{K} = 
     \begin{cases}
-        \Z[\sqrt{\Delta}] \qquad \text{if } \Delta \equiv 2,3 (\text{mod } 4) \\
-        \Z[\sqrt{\frac{1 + \Delta}}{2}] \qquad \text{if } \Delta \equiv 1 \text{ (mod} 4).
+        \mathbb{Z}[\sqrt{\Delta}] \qquad &\text{if } \Delta \equiv 2,3 (\text{mod } 4) \\
+        \mathbb{Z}[\sqrt{\frac{1 + \Delta}{2}}] \qquad &\text{if } \Delta \equiv 1 \text{ (mod} 4).
     \end{cases}
 $$
 
 It is known that $\mathcal{O}_{K}$ is a Euclidean domain. In particular, this means that there is a function $\nu : \mathcal{O}_{K} \to \mathbb{Z}_{\geq 0}$ such that for any $a, b \in \mathcal{O}_{K}$, there exists $q, r \in \mathcal{O}_{K}$ satisfying
+
 $$
     a = bq + r,
 $$
+
 where either $r = 0$ or $\nu(r) < \nu(b)$.
 
 As a concrete example of this, the integers are a Eucliden domain, where $\nu$ is just the usual absolute value function.
 
-Now, if $\Delta \equiv 1 (\text{mod } 4)$, let $\alpha = \frac{1 + \sqrt{\Delta}}{2}$. Otherwise, let $\alpha = \sqrt{\Delta}$. Then the field norm is defined to be 
+Now, if $\Delta \equiv 1 (\text{mod } 4)$, let $\alpha = \frac{1 + \sqrt{\Delta}}{2}$. Otherwise, let $\alpha = \sqrt{\Delta}$. Then the field norm is defined to be
+
 $$
     N(x + \alpha y) = (x + \alpha y) \cdot (x + \overline{\alpha} y),
 $$
+
 where $\overline{\alpha} = \frac{1 - \sqrt{\Delta}}{2}$ or $\overline{\alpha} = -\sqrt{\Delta}$, respectively.
 
 For $\mathcal{O}_{K}$, if we can take $\nu$ (the Euclidean function) to be the absolute value of the field norm, then we say that $\mathcal{O}_{K}$ is Norm-Euclidean.
@@ -59,8 +63,8 @@ Notice that $a,b,q \in \mathcal{O}_{K}$, so we can write each of these as $m + \
 $$
 \begin{align*}
     1 &> |N(\frac{a}{b} - q)| \\
-    &= |N(\frac{a_{1} + \alpha a_{2}}{b_{1} + \alpha b_{2}} - (q_{1} + \alpha q_{2})| 
-    &= |N(x + \alpha y) - (q_{1} + \alpha q_{2})|,
+    &= |N(\frac{a_{1} + \alpha a_{2}}{b_{1} + \alpha b_{2}} - (q_{1} + \alpha q_{2})| \\
+    &= |N(x + \alpha y) - (q_{1} + \alpha q_{2})| \\
     &= |N((x - q_{1}) + \alpha (y - q_{2}))|,
 \end{align*}
 $$
@@ -70,6 +74,7 @@ where now $x,y \in \mathbb{Q}$ and $q_{1}, q_{2} \in \mathbb{Z}$.
 Because of this, we need only consider $x,y \in [0,1]$; to get to any other rational number, we just shift by an integer. This is equivalent to just adding the necessary shift to $q_{1}$ and $q_{2}$ though, and so it suffices to consider only $x$ and $y$ from a unit square.
 
 Now the problem of identifying "bad" regions is equivalent to identifying rational numbers $x$ and $y$ for which there is _no_ integer shift $q_{1}, q_{2}$ such that
+
 $$
     |N((x - q_{1}) + \alpha (y - q_{2}))| < 1.
 $$
