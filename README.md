@@ -85,9 +85,16 @@ We start with an input square. In practice, we've used the unit square with bott
 
 With each recursion, the "bad" boxes get smaller, and so we're zooming in on regions that contain possible "bad" points. For discriminants that _are_ Norm-Euclidean, this process will eventually terminate, since there will be no bad boxes after a finite number of recursions. 
 
-<!--Clark proved that, although there _are_ bad regions when the discriminant is 69, the number of bad points in these regions is finite. In fact, a minor change to the field norm "fixes" the field norm so that it works for these bad points, and doesn't break the field norm for any of the good points.-->
+## How to use
 
-<!--How to use / what packages you need-->
+To run the actual computation that identifies possible bad regions, run `parallel_norm.sage` using sage. This program takes in the directory that you want the files with the "bad" squares saved to, a discriminant, a translate, and the number of CPUs you want the program to run on. 
+
+The discriminant should be a positive, squarefree integer. The translate should also be a positive integer; this number will determine how far the points in your input square will be translated during each recursive step. A translate of 10 means that $q_ {1} \in [-10, 10]$ and $q_ {2} \in [-10, 10]$, so the program will try at most 400 possible translations of a given point in the unit square.
+
+You can also add an optional input file, which should be a file of previously computed "bad" squares. This means that you do not need to redo previous computations. If no input file is passed in, the program will start with the input square.
+
+You can also add an optional input square; this option is available because the bad regions for certain discriminants fall along the border of the $[0,1] \times [0,1]$ square, and so shifting to a different unit square makes the image clearer. If no input square is passed in, the program will just use the square given by $[0,1] \times [0,1]$.
+
+Once you have files with "bad" squares, you can use the `plot_from_file.sage` program to see what the "bad" regions look like. This program takes in the name of the file that contains the "bad" squares you want plotted, and a name for the file where your image will be saved. 
 
 <!--This code is written in Sagemath. It uses the packages matplotlib, json, numpy, os, argparse, multiprocessing, and warnings.-->
-
