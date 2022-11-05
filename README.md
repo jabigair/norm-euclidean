@@ -1,12 +1,12 @@
-## Almost Norm-Euclidean
+# Almost Norm-Euclidean
 
-# Introduction
+## Introduction
 
 David A. Clark's "A Quadratic Field which is Euclidean but not Norm-Euclidean" proved that $\mathbb{Q}[\sqrt{69}]$ is Euclidean with respect to a norm that is almost the absolute value of the usual field norm. His approach in this paper was partly computational, since he showed that the number of points in the ring of integers of this quadratic field that the field norm _is not_ Euclidean for are finite. Additionally, he showed that altering the field norm so that those finite "bad" points became good did not break the norm for any of the other points. 
 
 This repository contains code that replicates this same search for discriminants other than 69. It focuses on the first step of Clark's proof, namely identifying the "bad" points for which the field norm is not quite Euclidean. This work has been done with the Computational Number Theory seminar at BYU.
 
-# Background
+## Background
 
 Let $\Delta$ be the discriminant of our quadratic field. For our purposes, we will also require $\Delta > 0$. We write this field as $K = \mathbb{Q}[\sqrt{\Delta}]$. Then the ring of integers, $\mathcal{O}_{K}$, looks like
 
@@ -41,7 +41,7 @@ For $\mathcal{O}_{K}$, if we can take $\nu$ (the Euclidean function) to be the a
 The number of discriminants for which this holds is finite, and completely known. For the other discriminants, we want to know if we can alter the field norm just enough so that $\mathcal{O}_{K}$ is almost Norm-Euclidean. Clark did this for $\Delta = 69$.
 
 
-# How do we do this?
+## How do we do this?
 
 Clark's argument can be broken up into two parts:
 1. identify the "bad" regions,
@@ -79,7 +79,7 @@ $$
     |N((x - q_{1}) + \alpha (y - q_{2}))| < 1.
 $$
 
-# Implementation
+## Implementation
 
 We start with an input square. In practice, we've used the unit square with bottom left corner at the origin $([0,1] \times [0, 1])$. The program takes this inputted square and cuts it into fourths. It calculates the maximum possible norm (meaning, the absolute value of the field norm) over each of these four squares. If that norm is less than one, then we know that the unaltered field norm works for every point in that box. If the maximum norm is greater than one, then there may be points in that box that the field norm does _not_ work for. We write these "bad" boxes to a file, and then the program recurses on each of these boxes (breaking them into fourths, and so on). 
 
