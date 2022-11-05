@@ -59,6 +59,8 @@ def n_max(x, y, step, disc):
             edges.append(N(0,yl))
             edges.append(N(0,yh))
 
+        # add xh , yh
+
     else: raise Error("Not a valid discriminant.")
 
     return max(edges)
@@ -147,6 +149,9 @@ def loop(output_dir, bad_squares, input_square, translate, disc, num_cpus):
     depth = 1 
 
     flag = True
+    # will loop indefinitely as written; you can add a break condition in the while loop
+    # or just ctrl-c out of the program (progress is saved in files, so recursions completed
+    # before the program is cancelled are not lost)
     while flag:
         stacked_bad_squares = p.starmap(explore_square, [([sq], translate, disc) for sq in bad_squares])
         bad_squares = []
@@ -159,59 +164,6 @@ def loop(output_dir, bad_squares, input_square, translate, disc, num_cpus):
         print(f'Finished discriminant {disc}, depth {depth}, translate {translate}')
         depth += 1
 
-        # if we've recursed more than n times, increment translate
-        if depth > 10:
-            translate += 20
-
-    return
-
-
-# TODO : add input_square to area_loop
-# also, this function just needs some TLC
-
-def area_loop(output_dir, num_cpus):
-    # loop explore_square, stopping recursion either once
-    # the area of the "bad" region is small enough or if
-    # we've recursed a certain number of times
-    p = Pool(num_cpus) 
-
-    # loop over these discriminants
-    for disc in []:
-        print('')
-        print("DISC: ", disc)
-        print('')
-        depth = 1 
-        max_depth = 10
-        translate = 10
-        bad_squares = [[0,0,1,1]] # initialize square
-        output_dir = output_dir + f"/disc{disc}"
-
-        flag = True
-        while flag:
-            stacked_bad_squares = p.starmap(explore_square, [([sq], translate, disc) for sq in bad_squares])
-            bad_squares = []
-            for s in stacked_bad_squares: # stripping away one level of list-ness to get in right format
-                bad_squares.extend(s)
-
-            # write bad_squares 
-            write_bad_squares(output_dir, bad_squares, disc, depth, translate)
-
-            print(f'Finished discriminant {disc}, depth {depth}, translate {translate}')
-            depth += 1
-
-            # check area of "bad" region
-            xl, yl, xh, yh = bad_squares[0] # choose an arbitrary bad square (they all have the same area)
-            total_area = (xh - xl)**2 * len(bad_squares) # area of one square times number of squares
-            print("Area of bad region: ", total_area)
-
-            # if enough of the square is "good", increment translate
-            if total_area < 0.5:
-                translate += 20
-
-            # if the bad region is small enough or we've recursed more
-            # than max_depth times, stop loop for this discriminant
-            if area < 0.05 or depth > max_depth:
-                flag = False
     return
 
 
