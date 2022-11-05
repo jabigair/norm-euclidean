@@ -8,17 +8,17 @@ This repository contains code that replicates this same search for discriminants
 
 ## Background
 
-Let $\Delta$ be the discriminant of our quadratic field. For our purposes, we will also require $\Delta > 0$. We write this field as $K = \mathbb{Q}[\sqrt{\Delta}]$. Then the ring of integers, $\mathcal{O}_{K}$, looks like
+Let $\Delta$ be the discriminant of our quadratic field. For our purposes, we will also require $\Delta > 0$. We write this field as $K = \mathbb{Q}[\sqrt{\Delta}]$. Then the ring of integers, $\mathcal{O}_ {K}$, looks like
 
 $$
-    \mathcal{O}_{K} = 
+    \mathcal{O}_ {K} = 
     \begin{cases}
         \mathbb{Z}[\sqrt{\Delta}] \qquad &\text{if } \Delta \equiv 2,3 (\text{mod } 4) \\
         \mathbb{Z}[\sqrt{\frac{1 + \Delta}{2}}] \qquad &\text{if } \Delta \equiv 1 \text{ (mod} 4).
     \end{cases}
 $$
 
-It is known that $\mathcal{O}_{K}$ is a Euclidean domain. In particular, this means that there is a function $\nu : \mathcal{O}_{K} \to \mathbb{Z}_{\geq 0}$ such that for any $a, b \in \mathcal{O}_{K}$, there exists $q, r \in \mathcal{O}_{K}$ satisfying
+It is known that $\mathcal{O}_ {K}$ is a Euclidean domain. In particular, this means that there is a function $\nu : \mathcal{O}_ {K} \to \mathbb{Z}_ {\geq 0}$ such that for any $a, b \in \mathcal{O}_ {K}$, there exists $q, r \in \mathcal{O}_ {K}$ satisfying
 
 $$
     a = bq + r,
@@ -36,9 +36,9 @@ $$
 
 where $\overline{\alpha} = \frac{1 - \sqrt{\Delta}}{2}$ or $\overline{\alpha} = -\sqrt{\Delta}$, respectively.
 
-For $\mathcal{O}_{K}$, if we can take $\nu$ (the Euclidean function) to be the absolute value of the field norm, then we say that $\mathcal{O}_{K}$ is Norm-Euclidean.
+For $\mathcal{O}_ {K}$, if we can take $\nu$ (the Euclidean function) to be the absolute value of the field norm, then we say that $\mathcal{O}_ {K}$ is Norm-Euclidean.
 
-The number of discriminants for which this holds is finite, and completely known. For the other discriminants, we want to know if we can alter the field norm just enough so that $\mathcal{O}_{K}$ is almost Norm-Euclidean. Clark did this for $\Delta = 69$.
+The number of discriminants for which this holds is finite, and completely known. For the other discriminants, we want to know if we can alter the field norm just enough so that $\mathcal{O}_ {K}$ is almost Norm-Euclidean. Clark did this for $\Delta = 69$.
 
 
 ## How do we do this?
@@ -58,7 +58,7 @@ $$
 \end{align*}
 $$
 
-Notice that $a,b,q \in \mathcal{O}_{K}$, so we can write each of these as $m + \alpha n$, where $m$ and $n$ are integers. In particular, this means that we can rewrite the above as
+Notice that $a,b,q \in \mathcal{O}_ {K}$, so we can write each of these as $m + \alpha n$, where $m$ and $n$ are integers. In particular, this means that we can rewrite the above as
 
 $$
 \begin{align*}
