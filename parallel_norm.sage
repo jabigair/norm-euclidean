@@ -59,7 +59,15 @@ def n_max(x, y, step, disc):
             edges.append(N(0,yl))
             edges.append(N(0,yh))
 
-        # add xh , yh
+
+        # repeat for xh, yh (since shifted boxes may have xh = 0 or yh = 0, which wasn't an issue before)
+        if yh == 0:
+            edges.append(N(xl,0))
+            edges.append(N(xh,0))
+        if xh == 0:
+            edges.append(N(0,yl))
+            edges.append(N(0,yh))
+
 
     else: raise Error("Not a valid discriminant.")
 
